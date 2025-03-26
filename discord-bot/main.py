@@ -6,7 +6,6 @@ import os
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=".", intents=intents)
 
-# Settings
 WELCOME_CHANNEL_ID = 1346886957707427912
 ALLOWED_ROLE_IDS = [1342429953916010526, 1338175441336533044]
 TICKET_CATEGORIES = [1350919325070004266, 1350919300440915982]
@@ -20,7 +19,7 @@ async def on_member_join(member):
     channel = bot.get_channel(WELCOME_CHANNEL_ID)
     if channel:
         await channel.send(embed=discord.Embed(
-            description=f"👋 Welcome {member.mention} to **LeoneMC Chill Community**! Have a great time 🎉",
+            description=f'👋 Welcome {member.mention} to **LeoneMC Chill Community**! Have a great time 🎉',
             color=discord.Color.green()
         ))
 
@@ -29,7 +28,7 @@ async def on_member_remove(member):
     channel = bot.get_channel(WELCOME_CHANNEL_ID)
     if channel:
         await channel.send(embed=discord.Embed(
-            description=f"👋 **{member.name}** has left the server 💔",
+            description=f'👋 **{member.name}** has left the server 💔',
             color=discord.Color.red()
         ))
 
@@ -40,25 +39,24 @@ async def givewarning(ctx, member: discord.Member):
 
     if not any(role.id in ALLOWED_ROLE_IDS for role in author.roles):
         return await ctx.send(embed=discord.Embed(
-            description="❌ You don't have permission to use this command.",
+            description='❌ You don't have permission to use this command.',
             color=discord.Color.red()
         ))
 
     await ctx.send(embed=discord.Embed(
-        description="📩 Hello mod, we have sent you a DM.",
+        description='📩 Hello mod, we have sent you a DM.',
         color=discord.Color.blurple()
     ))
 
     try:
         await author.send(embed=discord.Embed(
-            title="⚠️ Warning Confirmation",
-            description=f"Are you sure you want to report **{member}**?
-Type `yes` or `no`.",
+            title='⚠️ Warning Confirmation',
+            description=f'Are you sure you want to report **{member}**?\nType `yes` or `no`.',
             color=discord.Color.orange()
         ))
     except:
         return await ctx.send(embed=discord.Embed(
-            description="❌ Could not DM you. Please enable DMs.",
+            description='❌ Could not DM you. Please enable DMs.',
             color=discord.Color.red()
         ))
 
@@ -69,19 +67,19 @@ Type `yes` or `no`.",
         reply = await bot.wait_for("message", check=check, timeout=60)
     except:
         return await author.send(embed=discord.Embed(
-            description="⏰ Timed out. Please run the command again.",
+            description='⏰ Timed out. Please run the command again.',
             color=discord.Color.red()
         ))
 
     if reply.content.lower() != "yes":
         return await author.send(embed=discord.Embed(
-            description="❌ Report canceled.",
+            description='❌ Report canceled.',
             color=discord.Color.red()
         ))
 
     await author.send(embed=discord.Embed(
-        title="📝 Offense Description",
-        description="Please type the offense (you can write a full sentence).",
+        title='📝 Offense Description',
+        description='Please type the offense (you can write a full sentence).',
         color=discord.Color.gold()
     ))
 
@@ -89,15 +87,13 @@ Type `yes` or `no`.",
         offense_msg = await bot.wait_for("message", check=check, timeout=180)
     except:
         return await author.send(embed=discord.Embed(
-            description="⏰ Timed out. Please run the command again.",
+            description='⏰ Timed out. Please run the command again.',
             color=discord.Color.red()
         ))
 
     await author.send(embed=discord.Embed(
-        title="🔒 Final Confirmation",
-        description="Are you sure you want to send this to a ticket?
-This can’t be undone.
-Type `sure` or `cancel`.",
+        title='🔒 Final Confirmation',
+        description='Are you sure you want to send this to a ticket?\nThis can’t be undone.\nType `sure` or `cancel`.',
         color=discord.Color.red()
     ))
 
@@ -105,17 +101,16 @@ Type `sure` or `cancel`.",
         confirm = await bot.wait_for("message", check=check, timeout=60)
     except:
         return await author.send(embed=discord.Embed(
-            description="⏰ Timed out. Please run the command again.",
+            description='⏰ Timed out. Please run the command again.',
             color=discord.Color.red()
         ))
 
     if confirm.content.lower() != "sure":
         return await author.send(embed=discord.Embed(
-            description="❌ Report canceled.",
+            description='❌ Report canceled.',
             color=discord.Color.red()
         ))
 
-    # Create ticket
     category = get(guild.categories, id=TICKET_CATEGORIES[0]) or get(guild.categories, id=TICKET_CATEGORIES[1])
     overwrites = {
         guild.default_role: discord.PermissionOverwrite(read_messages=False),
@@ -133,12 +128,9 @@ Type `sure` or `cancel`.",
     embed = discord.Embed(
         title="⚖️ Court Case Started",
         description=(
-            f"**Moderator:** {author.mention}
-"
-            f"**Accused:** {member.mention}
-"
-            f"**Offense:**
-{offense_msg.content}"
+            f"**Moderator:** {author.mention}\n"
+            f"**Accused:** {member.mention}\n"
+            f"**Offense:**\n{offense_msg.content}"
         ),
         color=discord.Color.purple()
     )
