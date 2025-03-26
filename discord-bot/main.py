@@ -130,14 +130,10 @@ Type `sure` or `cancel`.",
 
     embed = discord.Embed(
         title="⚖️ Court Case Started",
-        description=(
-            f"**Moderator:** {author.mention}
-"
-            f"**Accused:** {member.mention}
-"
-            f"**Offense:**
-{offense_msg.content}"
-        ),
+        description=f"**Moderator:** {author.mention}
+**Accused:** {member.mention}
+**Offense:**
+{offense_msg.content}",
         color=discord.Color.purple()
     )
     embed.set_footer(text="🧾 Please type your story in 1 sentence. If not, this will be closed and both get a warning.")
